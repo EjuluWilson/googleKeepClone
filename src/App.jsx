@@ -8,7 +8,14 @@ function App() {
   const [notes, setNotes] = useState([]);
 
   function addNote(note) {
+    if (note.title === "" || note.content === "") {
+      return;
+    }
     setNotes((existingNotes) => [...existingNotes, note]);
+  }
+
+  function deleteNote(noteIndex){
+    setNotes((existingNotes) =>existingNotes.filter((note, index)=>index!==noteIndex));
   }
 
   return (
@@ -16,13 +23,7 @@ function App() {
       <Header />
       <CreateArea addNote={addNote} />
       {notes.map((note, index) => {
-        return (
-          <Note
-            key={index}
-            title={note.title}
-            content={note.content}
-          />
-        );
+        return <Note key={index} id={index} title={note.title} content={note.content} deleteNote={deleteNote} />;
       })}
       <Footer></Footer>
     </div>
