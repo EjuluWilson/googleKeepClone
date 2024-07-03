@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 
-function CreateArea() {
+function CreateArea(props) {
+  //initailise note state
   const [note, setNote] = useState({
     title: "",
     content: "",
   });
 
+  //capture note
   function handleNoteIput(event) {
     const { name, value } = event.target;
     setNote((prevNote) => {
       return {
-        ...prevNote,
+        ...prevNote, //add previous note
         [name]: value,
       };
     });
@@ -19,7 +21,12 @@ function CreateArea() {
 
   return (
     <div>
-      <form>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          props.addNote(note);
+        }}
+      >
         <input
           onChange={handleNoteIput}
           name="title"
@@ -33,7 +40,7 @@ function CreateArea() {
           rows="3"
           value={note.text}
         />
-        <button>Add</button>
+        <button type="submit">Add</button>
       </form>
     </div>
   );
